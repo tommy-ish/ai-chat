@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
   try {
     // Parse and validate request body
     const body = await request.json();
-    const { message, sessionId } = validateChatRequest(body);
+    const { message, sessionId, imageData, imageMimeType } = validateChatRequest(body);
 
     // Find or create conversation
     let conversation = await prisma.conversation.findUnique({
@@ -35,11 +35,13 @@ export async function POST(request: NextRequest) {
         conversationId: sessionId,
         role: 'user',
         content: message,
+        imageData,
+        imageMimeType,
       },
     });
 
-    // Generate AI response using Mastra
-    const aiResponse = await generateResponse(message);
+    // Generate AI response using Mastra with image support
+    const aiResponse = await generateResponse(message, imageData, imageMimeType);
 
     // Save AI response to database
     await prisma.message.create({

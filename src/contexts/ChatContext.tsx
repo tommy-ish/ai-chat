@@ -16,7 +16,7 @@ interface ChatContextType {
   isLoading: boolean;
   error: string | null;
   sessionId: string;
-  sendMessage: (content: string) => Promise<void>;
+  sendMessage: (content: string, imageData?: string, imageMimeType?: string) => Promise<void>;
   clearError: () => void;
 }
 
@@ -66,7 +66,7 @@ export function ChatProvider({ children }: ChatProviderProps) {
 
   // Send message to API
   const sendMessage = useCallback(
-    async (content: string) => {
+    async (content: string, imageData?: string, imageMimeType?: string) => {
       if (!content.trim() || isLoading) return;
 
       setIsLoading(true);
@@ -78,6 +78,8 @@ export function ChatProvider({ children }: ChatProviderProps) {
         conversationId: sessionId,
         role: 'user',
         content: content.trim(),
+        imageData,
+        imageMimeType,
         createdAt: new Date(),
       };
 
@@ -93,6 +95,8 @@ export function ChatProvider({ children }: ChatProviderProps) {
           body: JSON.stringify({
             message: content.trim(),
             sessionId,
+            imageData,
+            imageMimeType,
           }),
         });
 

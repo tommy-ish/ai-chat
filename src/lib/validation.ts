@@ -16,6 +16,10 @@ export const chatRequestSchema = z.object({
       /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i,
       'Invalid session ID format'
     ),
+  imageData: z.string().optional(),
+  imageMimeType: z
+    .enum(['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'])
+    .optional(),
 });
 
 /**

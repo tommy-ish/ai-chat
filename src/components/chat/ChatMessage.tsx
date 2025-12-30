@@ -25,6 +25,15 @@ export function ChatMessage({ message, isLatest: _isLatest = false }: ChatMessag
         <div className="flex items-start gap-2 sm:gap-3">
           <div className="flex-1 min-w-0">
             <div className="sr-only">{roleLabel}:</div>
+            {message.imageData && message.imageMimeType && (
+              <div className="mb-2">
+                <img
+                  src={`data:${message.imageMimeType};base64,${message.imageData}`}
+                  alt="添付画像"
+                  className="max-w-full h-auto max-h-60 rounded border border-border"
+                />
+              </div>
+            )}
             <p className="text-sm sm:text-base whitespace-pre-wrap break-words leading-relaxed">
               {message.content}
             </p>
