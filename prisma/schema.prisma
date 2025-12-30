@@ -23,5 +23,7 @@ model Message {
   conversation   Conversation @relation(fields: [conversationId], references: [id])
   role           String       // "user" | "assistant"
   content        String
+  imageData      String?      // Base64 encoded image data
+  imageMimeType  String?      // MIME type (image/jpeg, image/png, etc.)
   createdAt      DateTime     @default(now())
 }
